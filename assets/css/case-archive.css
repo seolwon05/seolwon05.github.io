@@ -85,20 +85,38 @@ body{
 }
 
 
-/* Static profile image without Chirpy shimmer */
 
-.case-profile-image {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  animation: none !important;
-  transition: none !important;
-}
+/* =====================================
+   Case Board - Profile Image Fix
+   ===================================== */
 
-.case-profile-image::before,
-.case-profile-image::after {
+/* Chirpy 이미지 광택 효과 제거 */
+.case-world .case-core-photo .shimmer::before,
+.case-world .case-core-photo .shimmer::after {
   content: none !important;
   display: none !important;
+  animation: none !important;
+}
+
+.case-world .case-core-photo .shimmer {
+  animation: none !important;
+  background-image: none !important;
+}
+
+/* 자동 생성된 이미지 링크 크기 유지 */
+.case-world .case-core-photo a.img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 프로필 사진 정상 표시 */
+.case-world .case-core-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none !important;
+  animation: none !important;
 }
