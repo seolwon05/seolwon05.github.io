@@ -83,3 +83,22 @@ body{
 .archive-world{
   background:transparent !important;
 }
+
+
+/* Static profile image without Chirpy shimmer */
+
+.case-profile-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: none !important;
+  transition: none !important;
+}
+
+.case-profile-image::before,
+.case-profile-image::after {
+  content: none !important;
+  display: none !important;
+}
