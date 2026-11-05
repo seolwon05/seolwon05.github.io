@@ -14,7 +14,16 @@ layout: default
     </svg>
     <div class="case-core">
       <div class="case-core-photo">
-        {% if site.avatar %}<img src="{{ site.avatar | relative_url }}" alt="홍설원 프로필">{% else %}<span>SW</span>{% endif %}
+        {% if site.avatar %}
+          <div
+            class="case-profile-image"
+            role="img"
+            aria-label="홍설원 프로필"
+            style="background-image: url('{{ site.avatar | relative_url | escape }}');"
+          ></div>
+        {% else %}
+          <span>SW</span>
+        {% endif %}
       </div>
       <strong>HONG SEOLWON</strong>
       <small>ARCHIVIST · SUBJECT 001</small>
