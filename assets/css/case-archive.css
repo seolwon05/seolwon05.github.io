@@ -28,7 +28,7 @@
 .case-threads{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}.case-threads path{fill:none;stroke:#ac3d34;stroke-width:3.5;filter:drop-shadow(1px 1px 1px #39211b)}
 .case-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-2deg);width:192px;min-height:205px;padding:12px;background:#f2e6ce;box-shadow:3px 6px 13px rgba(0,0,0,.4);z-index:3;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
 .case-core:before,.evidence-card:before{content:'';position:absolute;top:-9px;left:calc(50% - 8px);width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 32% 25%,#ffce9a 0,#a62e29 40%,#541810 85%);box-shadow:1px 2px 3px #36231b;z-index:5}
-.case-core-photo{width:102px;height:102px;overflow:hidden;border:5px solid #e9dbc2;background:#c3af8d;filter:sepia(.35) contrast(.9)}.case-core-photo img{width:100%;height:100%;object-fit:cover}.case-core strong{font: bold .75rem monospace;letter-spacing:.09em}.case-core small{font:.55rem monospace}.case-core-seal{font:.52rem monospace;border:1px solid #965348;padding:3px 6px;color:#965348;transform:rotate(-5deg)}
+.case-core-photo{width:102px;height:102px;overflow:hidden;border:5px solid #e9dbc2;background:#c3af8d;filter:sepia(.15) contrast(.98);position: relative;}.case-core-photo::before,.case-core-photo::after{content:none !important;display:none !important;}.case-core-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:none;}.case-core strong{font: bold .75rem monospace;letter-spacing:.09em}.case-core small{font:.55rem monospace}.case-core-seal{font:.52rem monospace;border:1px solid #965348;padding:3px 6px;color:#965348;transform:rotate(-5deg)}
 .evidence-card{position:absolute;z-index:2;width:27%;min-height:142px;padding:.85rem .95rem 1rem;color:#342b26!important;background:#e9dcc1;box-shadow:2px 6px 12px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:.3rem;transition:transform .2s,box-shadow .2s}
 .evidence-card:hover{z-index:6;transform:rotate(0deg) scale(1.045);box-shadow:5px 10px 17px rgba(0,0,0,.4)}
 .evidence-head,.evidence-footer{font:.56rem monospace;letter-spacing:.07em;color:#866251}.evidence-head{display:flex;justify-content:space-between;border-bottom:1px solid #9b8771;padding-bottom:.35rem}.evidence-title{font:bold clamp(.9rem,1.65vw,1.18rem)/1.2 Georgia,serif;overflow-wrap:anywhere;margin-top:.28rem}.evidence-subtitle{font:.72rem system-ui,sans-serif;color:#6c5c50}.evidence-footer{border-top:1px dashed #9b8771;margin-top:auto;padding-top:.35rem}
@@ -38,3 +38,48 @@
 @media(max-width:767px){.archive-folder-list{grid-template-columns:1fr;gap:2.3rem}.archive-masthead{padding:1.3rem}.archive-masthead:after{display:none}.case-board{height:auto;min-height:0;padding:1.4rem .85rem;display:grid;grid-template-columns:1fr;gap:1.15rem;overflow:visible}.case-threads{display:none}.case-core,.evidence-card{position:relative;left:auto;top:auto;right:auto;bottom:auto;transform:none!important;width:100%;min-height:0}.case-core{width:180px;justify-self:center;margin:.4rem auto 1.2rem}.evidence-card{min-height:116px}.case-header h1{font-size:2.9rem}}
 @media(min-width:768px) and (max-width:1120px){.archive-folder-list{grid-template-columns:1fr}.case-board{height:760px}.evidence-card{width:30%;padding:.65rem}.evidence-1,.evidence-4{left:2%}.evidence-3,.evidence-6{right:2%}.evidence-2,.evidence-5{left:35%}.evidence-title{font-size:.88rem}.case-core{width:165px;min-height:180px}.case-core-photo{height:82px;width:82px}}
 @media(prefers-reduced-motion:reduce){.file-folder,.evidence-card{transition:none}}
+
+/* Global vintage background */
+html,
+body{
+  background:#e6dccd !important;
+}
+
+body{
+  color:#332b28;
+}
+
+#main-wrapper,
+#main,
+#topbar-wrapper{
+  background:transparent !important;
+}
+
+#sidebar{
+  background:#ddd2bf !important;
+  border-right:1px solid #c4b49a;
+}
+
+#topbar-wrapper{
+  background:rgba(230,220,205,.88) !important;
+  border-bottom:1px solid #c8b89d;
+  backdrop-filter: blur(4px);
+}
+
+#topbar{
+  background:transparent !important;
+}
+
+#search-result-wrapper,
+#search-hints,
+.search-result-wrapper{
+  background:#efe5d6 !important;
+}
+
+.page,
+.post,
+.card,
+#post-list .card,
+.archive-world{
+  background:transparent !important;
+}
