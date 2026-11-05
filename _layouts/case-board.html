@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="{{ '/assets/css/case-archive.css' | relative_url }}">
+<section class="archive-world case-world" aria-label="카테고리 사건 보드">
+  <header class="case-header">
+    <span class="archive-eyebrow">THE INDEX OF INVESTIGATIONS</span>
+    <h1>Case <em>Board</em></h1>
+    <p>하나의 관심사에서 뻗어나온 여섯 갈래의 기록.<br>사건 파일을 선택해 조사 기록을 열람하세요.</p>
+  </header>
+  <div class="case-board" aria-label="연결된 여섯 개 카테고리">
+    <svg class="case-threads" viewBox="0 0 1000 690" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M500 340 L145 110 M500 340 L500 95 M500 340 L855 110 M500 340 L145 570 M500 340 L500 595 M500 340 L855 570" />
+    </svg>
+    <div class="case-core">
+      <div class="case-core-photo">
+        {% if site.avatar %}<img src="{{ site.avatar | relative_url }}" alt="홍설원 프로필">{% else %}<span>SW</span>{% endif %}
+      </div>
+      <strong>HONG SEOLWON</strong>
+      <small>ARCHIVIST · SUBJECT 001</small>
+      <span class="case-core-seal">PERSON OF INTEREST</span>
+    </div>
+    {% assign folder_names = 'Development|CTF & Wargame|Bug Bounty|Tech Notes|Research & Conference|Activities & Certifications' | split: '|' %}
+    {% assign folder_codes = '01|02|03|04|05|06' | split: '|' %}
+    {% assign folder_subtitles = '개발|CTF / Wargame|버그바운티|기술 문서|논문·컨퍼런스|공모전·자격증' | split: '|' %}
+    {% for name in folder_names %}
+      {% assign number = folder_codes[forloop.index0] %}
+      {% assign sub = folder_subtitles[forloop.index0] %}
+      {% capture category_path %}/categories/{{ name | slugify }}/{% endcapture %}
+      <a href="{{ category_path | relative_url }}" class="evidence-card evidence-{{ forloop.index }}" aria-label="{{ name }} 카테고리 열기">
+        <div class="evidence-head"><span>EVIDENCE {{ number }}</span><span class="evidence-pin" aria-hidden="true"></span></div>
+        <span class="evidence-title">{{ name }}</span>
+        <span class="evidence-subtitle">{{ sub }}</span>
+        <span class="evidence-footer">{{ site.categories[name].size | default: 0 }} RECORDS · VIEW FILE ↗</span>
+      </a>
+    {% endfor %}
+  </div>
+  <p class="case-board-note">THREADS OF CURIOSITY · CLICK AN EVIDENCE CARD TO EXPLORE</p>
+</section>

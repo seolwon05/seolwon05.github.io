@@ -1,0 +1,37 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="{{ '/assets/css/case-archive.css' | relative_url }}">
+<section class="archive-world archive-home" aria-label="개인 기록 보관소">
+  <header class="archive-masthead">
+    <div class="masthead-top"><span>PRIVATE ARCHIVE / PUBLIC RECORDS</span><span>EST. 2026 · SW—05</span></div>
+    <p class="archive-eyebrow">FIELD NOTES &amp; CASE FILES</p>
+    <h1>Seolwon's <em>Archive</em></h1>
+    <p>개발과 탐구의 흔적을 수집한 기록 보관소.<br>폴더를 열면 하나의 이야기가 시작됩니다.</p>
+    <div class="archive-masthead-bottom"><span>DOCUMENT DIVISION</span><span>NO. 001—{{ site.posts.size | prepend: '00' | slice: -3, 3 }}</span></div>
+  </header>
+
+  <div class="archive-collection-title"><h2>Filed Documents</h2><span>정리된 기록 · 최신 순</span></div>
+  <div class="archive-folder-list">
+    {% assign records = paginator.posts | default: site.posts %}
+    {% for post in records %}
+    {% unless post.hidden %}
+      <article class="file-folder folder-variant-{{ forloop.index | modulo: 3 }}">
+        <div class="folder-tab"><span>CASE {{ forloop.index | plus: 0 | prepend: '000' | slice: -3, 3 }}</span></div>
+        <a class="folder-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }} 읽기">
+          <div class="folder-heading">
+            <span class="folder-classification">{% if post.categories.size > 0 %}{{ post.categories | join: ' / ' }}{% else %}UNFILED{% endif %}</span>
+            <span class="folder-date">{{ post.date | date: '%Y.%m.%d' }}</span>
+          </div>
+          <h3>{{ post.title | escape }}</h3>
+          <p class="folder-excerpt">{{ post.description | default: post.excerpt | strip_html | normalize_whitespace | truncate: 145 | escape }}</p>
+          <div class="folder-bottom"><span>OPEN FILE <span aria-hidden="true">↗</span></span><span class="folder-stamp">ARCHIVED</span></div>
+        </a>
+      </article>
+    {% endunless %}
+    {% endfor %}
+  </div>
+  {% if paginator.total_pages > 1 %}
+    <div class="archive-pagination">{% include post-paginator.html %}</div>
+  {% endif %}
+</section>
