@@ -15,12 +15,11 @@ layout: default
     <div class="case-core">
       <div class="case-core-photo">
         {% if site.avatar %}
-          <div
-            class="case-profile-image"
-            role="img"
-            aria-label="홍설원 프로필"
-            style="background-image: url('{{ site.avatar | relative_url | escape }}');"
-          ></div>
+          <img
+            src="{{ site.avatar | relative_url }}"
+            alt="홍설원 프로필"
+            loading="eager"
+          >
         {% else %}
           <span>SW</span>
         {% endif %}
