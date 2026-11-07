@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<link rel="stylesheet" href="{{ '/assets/css/case-archive.css' | relative_url }}">
+{% include archive-style.html %}
 <section class="archive-world case-world" aria-label="카테고리 사건 보드">
   <header class="case-header">
     <span class="archive-eyebrow">THE INDEX OF INVESTIGATIONS</span>
@@ -10,7 +10,8 @@ layout: default
   </header>
   <div class="case-board" aria-label="연결된 여섯 개 카테고리">
     <svg class="case-threads" viewBox="0 0 1000 690" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M500 340 L145 110 M500 340 L500 95 M500 340 L855 110 M500 340 L145 570 M500 340 L500 595 M500 340 L855 570" />
+      <path class="thread-main" d="M500 345 L138 113 M500 345 L506 89 M500 345 L859 120 M500 345 L147 578 M500 345 L496 598 M500 345 L853 572" />
+      <path class="thread-cross" d="M138 113 L506 89 L859 120 M147 578 L496 598 L853 572 M138 113 L147 578 M859 120 L853 572" />
     </svg>
     <div class="case-core">
       <div class="case-core-photo">

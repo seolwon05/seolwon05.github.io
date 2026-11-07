@@ -1,0 +1,40 @@
+/* Optional lamplight study. The paper theme remains in case-archive.css. */
+:root{--lamp-amber:#d6a45d;--lamp-ivory:#eadcc1;--lamp-muted:#b9a88f}
+html,body{background-color:#111315 !important}
+body{color:var(--lamp-ivory);background-image:radial-gradient(ellipse 67% 56% at 53% 28%,transparent 0%,rgba(10,11,13,.3) 54%,rgba(6,8,10,.88) 100%),radial-gradient(ellipse 52% 35% at 38% 4%,rgba(230,151,62,.62),rgba(138,82,36,.22) 47%,transparent 85%),linear-gradient(rgba(16,18,20,.79),rgba(16,17,19,.86)),url('../img/textures/newspaper-collage.png') !important;background-size:cover,cover,cover,773px auto !important;background-repeat:no-repeat,no-repeat,no-repeat,repeat !important;background-attachment:fixed !important}
+#sidebar{background-color:#191918 !important;background-image:linear-gradient(140deg,rgba(38,33,28,.94),rgba(13,15,17,.96)),url('../img/textures/aged-report-paper.png') !important;border-right:1px solid #4c3e2c;box-shadow:8px 0 25px rgba(0,0,0,.38)}
+#sidebar .site-title{color:#f0dfbe !important;text-shadow:0 0 18px rgba(221,151,61,.18)}
+#sidebar .site-subtitle{color:#c3ad8d !important}
+#sidebar .nav-link,#sidebar .nav-link i,#sidebar .sidebar-bottom a,#sidebar .sidebar-bottom button{color:#cbbca4 !important}
+#sidebar .nav-item.active .nav-link,#sidebar .nav-link:hover,#sidebar .nav-link:focus-visible{background:rgba(172,116,54,.2) !important;color:#ffe0a2 !important}
+#sidebar .profile-wrapper img{filter:sepia(.18) brightness(.83)}
+#topbar-wrapper{background:rgba(23,24,24,.9) !important;border-color:#71563a;color:#e5d3b4;backdrop-filter:blur(8px)}
+#topbar,#topbar a,#topbar button,#breadcrumb,#breadcrumb a{color:#e4d1af !important}
+#search-result-wrapper,#search-hints,.search-result-wrapper{background:#292622 !important;color:#e9d9bb !important}
+#panel-wrapper,#panel-wrapper .panel-heading{color:#e0d1b8 !important}
+#panel-wrapper a{color:#d8bb8e !important}
+#panel-wrapper a:hover{color:#ffe0a2 !important}
+#panel-wrapper .tag{background:rgba(223,187,128,.12);border-color:#816a4c;color:#e5cda3}
+#tail-wrapper footer{border-top-color:#806747;color:#baa98f !important}
+#tail-wrapper footer a{color:#e7c28e !important}
+.archive-world .archive-section-header{border-color:#aa8553}
+.archive-world .archive-section-header h1,.archive-world .case-header h1,.archive-world .archive-collection-title h2{color:#f1dfbc}
+.archive-world .archive-section-header h1 em,.archive-world .case-header h1 em{color:#e7ab62}
+.archive-world .archive-section-header>p:last-child,.archive-world .case-header p,.archive-world .archive-collection-title span,.archive-world .case-board-note{color:#d2bd9c}
+.archive-world .archive-eyebrow{color:#d69f62}
+.archive-world .notebook-heading,.archive-world .dossier-topline{color:#ddc29a;border-color:#9c794e}
+.archive-world .notebook-heading a,.archive-world .dossier-back a{color:#edc48b}
+.archive-world .postcard-caption{color:#d9b47f}
+.archive-masthead{box-shadow:0 0 55px rgba(222,151,68,.26),5px 6px 0 #665139}
+.file-folder{box-shadow:0 8px 24px rgba(0,0,0,.44),0 0 18px rgba(216,142,59,.13)}
+.file-folder:hover{box-shadow:0 12px 30px rgba(0,0,0,.52),0 0 28px rgba(226,154,66,.25)}
+.archive-world .archive-collection-title{border-color:#a7804f}
+.case-board{background-image:radial-gradient(ellipse 64% 60% at 25% 7%,rgba(255,190,95,.34),rgba(156,89,38,.13) 55%,rgba(12,13,14,.52) 100%),linear-gradient(rgba(32,24,19,.22),rgba(27,20,17,.38)),url('../img/textures/case-board-cork.png');background-size:cover,cover,cover;border-color:#4d3928;outline-color:#a77e4e;box-shadow:inset 0 0 0 2px rgba(246,202,132,.15),inset 0 0 80px rgba(0,0,0,.65),0 15px 34px rgba(0,0,0,.48),0 0 40px rgba(217,143,61,.13)}
+.case-core{box-shadow:0 10px 22px rgba(0,0,0,.54),0 0 32px rgba(245,177,88,.2)}
+.evidence-card{box-shadow:0 7px 17px rgba(0,0,0,.48)}
+.evidence-card:hover{box-shadow:0 11px 26px rgba(0,0,0,.6),0 0 20px rgba(244,172,83,.22)}
+.dossier-header,.dossier-paper,.postcard,.notebook-cover,.catalog-card,.evidence-ticket{box-shadow:0 8px 26px rgba(0,0,0,.4),0 0 24px rgba(225,156,69,.13)}
+.dossier-paper,.postcard,.notebook-pages{filter:sepia(.09)}
+.catalog-year-head{border-color:#b89160}.catalog-year-head h2{color:#eddbb8}.catalog-year-head span{color:#d0ad7c}
+.ticket-page .archive-empty,.catalog-page .archive-empty{color:#382d21}
+@media(max-width:767px){body{background-attachment:scroll !important;background-size:cover,cover,cover,620px auto !important}.archive-masthead{box-shadow:0 0 26px rgba(222,151,68,.2),3px 4px 0 #665139}}

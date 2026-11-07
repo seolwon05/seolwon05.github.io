@@ -1,0 +1,18 @@
+---
+layout: default
+---
+{% include archive-style.html %}
+<section class="archive-world catalog-page" aria-label="연도별 글 목록">
+  <header class="archive-section-header"><p class="archive-eyebrow">LIBRARY CATALOG / CHRONOLOGICAL INDEX</p><h1>Archive <em>Drawer</em></h1><p>연도별로 정리된 기록 카드를 넘겨보세요.</p></header>
+  {% assign posts_by_year = site.posts | group_by_exp: 'post', "post.date | date: '%Y'" %}
+  {% for year in posts_by_year %}
+    <section class="catalog-year" aria-labelledby="year-{{ year.name }}">
+      <div class="catalog-year-head"><h2 id="year-{{ year.name }}">{{ year.name }}</h2><span>{{ year.items.size }} RECORDS / DRAWER {{ forloop.index | prepend: '0' }}</span></div>
+      <div class="catalog-cards">
+        {% for post in year.items %}{% unless post.hidden %}
+        <a class="catalog-card" href="{{ post.url | relative_url }}"><span class="catalog-card-tab">{{ post.date | date: '%m.%d' }}</span><span class="catalog-card-top">INDEX № {{ forloop.index | prepend: '00' | slice: -3, 3 }} <span>{{ post.categories | first | default: 'UNFILED' }}</span></span><strong>{{ post.title | escape }}</strong><span class="catalog-card-bottom">{{ post.date | date: '%Y.%m.%d' }} <span>OPEN RECORD ↗</span></span></a>
+        {% endunless %}{% endfor %}
+      </div>
+    </section>
+  {% else %}<p class="archive-empty">아직 보관된 기록이 없습니다.</p>{% endfor %}
+</section>

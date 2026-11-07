@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{% include archive-style.html %}
+<article class="archive-world dossier-page" aria-label="사건 수사 보고서">
+  <div class="dossier-topline"><span>SEOLWON'S ARCHIVE / INVESTIGATION DIVISION</span><span>PUBLIC RECORD · SW—05</span></div>
+  <header class="dossier-header">
+    <p class="archive-eyebrow">INVESTIGATION REPORT / 사건 수사 보고서</p>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}<p class="dossier-summary">{{ page.description | escape }}</p>{% endif %}
+    <div class="dossier-meta">
+      <div><span>문서 등록일 / FILED</span><strong><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time></strong></div>
+      <div><span>사건 분류 / CLASSIFICATION</span><strong>{% if page.categories.size > 0 %}{{ page.categories | join: ' / ' }}{% else %}미분류{% endif %}</strong></div>
+      <div><span>문서 번호 / RECORD NO.</span><strong>{{ page.date | date: '%Y%m%d' }}—{{ page.slug | upcase }}</strong></div>
+    </div>
+    <span class="dossier-stamp" aria-hidden="true">CASE FILE</span>
+  </header>
+  <div class="dossier-paper">
+    <div class="dossier-paper-heading"><span>FIELD NOTES / 조사 기록</span><span>01 — {{ page.title | escape }}</span></div>
+    <div id="post-content" class="dossier-body content">{{ content }}</div>
+    {% if page.tags.size > 0 %}
+    <footer class="dossier-evidence">
+      <h2>증거 라벨 <small>/ EVIDENCE LABELS</small></h2>
+      <div class="dossier-labels">
+        {% for tag in page.tags %}{% capture tag_path %}/tags/{{ tag | slugify }}/{% endcapture %}<a href="{{ tag_path | relative_url }}">EV—{{ forloop.index | prepend: '0' }} &nbsp; {{ tag }}</a>{% endfor %}
+      </div>
+    </footer>
+    {% endif %}
+  </div>
+  <nav class="dossier-back" aria-label="목록으로 돌아가기"><a href="{{ '/' | relative_url }}">← 전체 사건 파일로 돌아가기</a></nav>
+</article>

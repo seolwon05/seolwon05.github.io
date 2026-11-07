@@ -1,0 +1,39 @@
+---
+layout: default
+---
+{% include archive-style.html %}
+<section class="archive-world field-notebook" aria-label="{{ page.title | escape }} 태그의 사건 수첩">
+  <header class="notebook-heading">
+    <span>FIELD NOTEBOOK / EVIDENCE LABEL</span>
+    <a href="{{ '/tags/' | relative_url }}">← 전체 증거 라벨</a>
+  </header>
+  <div class="notebook-cover">
+    <div class="notebook-pages">
+      <div class="notebook-left">
+        <div class="notebook-page-number">SEOLWON'S ARCHIVE &nbsp; / &nbsp; INDEX 01</div>
+        <p class="notebook-kicker">EVIDENCE LABEL · 증거 라벨</p>
+        <h1>{{ page.title | escape }}</h1>
+        <div class="notebook-count"><strong>{{ page.posts.size }}</strong><span>RELATED<br>RECORDS</span></div>
+        <p class="notebook-intro">이 라벨에 연결된 조사 기록을 모았습니다.<br>목록에서 문서를 선택해 사건 파일을 펼쳐보세요.</p>
+        <span class="notebook-seal" aria-hidden="true">FILED<br>SW—05</span>
+      </div>
+      <div class="notebook-right">
+        <div class="notebook-page-number">CASE NOTES &nbsp; / &nbsp; PAGE {{ page.posts.size | prepend: '0' }}</div>
+        <h2>조사 기록 <small>FIELD NOTES</small></h2>
+        <ol class="notebook-entries">
+          {% for post in page.posts %}
+            <li>
+              <a href="{{ post.url | relative_url }}">
+                <span class="notebook-entry-no">{{ forloop.index | prepend: '0' }}</span>
+                <span class="notebook-entry-copy"><strong>{{ post.title | escape }}</strong><small>{% if post.categories.size > 0 %}{{ post.categories | join: ' / ' }}{% else %}미분류{% endif %}</small></span>
+                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+              </a>
+            </li>
+          {% else %}<li class="notebook-empty">아직 연결된 기록이 없습니다.</li>{% endfor %}
+        </ol>
+        <div class="notebook-bottom">END OF INDEX &nbsp; • &nbsp; {{ page.title | escape | upcase }}</div>
+      </div>
+    </div>
+    <span class="notebook-tab" aria-hidden="true">EVIDENCE</span>
+  </div>
+</section>

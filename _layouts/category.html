@@ -1,0 +1,39 @@
+---
+layout: default
+---
+{% include archive-style.html %}
+<section class="archive-world field-notebook category-notebook" aria-label="{{ page.title | escape }} 사건 분류 수첩">
+  <header class="notebook-heading">
+    <span>CASE NOTEBOOK / CLASSIFICATION</span>
+    <a href="{{ '/categories/' | relative_url }}">← 사건 보드로 돌아가기</a>
+  </header>
+  <div class="notebook-cover">
+    <div class="notebook-pages">
+      <div class="notebook-left">
+        <div class="notebook-page-number">SEOLWON'S ARCHIVE &nbsp; / &nbsp; CASE INDEX</div>
+        <p class="notebook-kicker">CASE CLASSIFICATION · 사건 분류</p>
+        <h1>{{ page.title | escape }}</h1>
+        <div class="notebook-count"><strong>{{ page.posts.size }}</strong><span>FILED<br>DOCUMENTS</span></div>
+        <p class="notebook-intro">이 분류에 보관된 사건 파일입니다.<br>기록을 선택해 수사 보고서를 열람하세요.</p>
+        <span class="notebook-seal" aria-hidden="true">CASE<br>SW—05</span>
+      </div>
+      <div class="notebook-right">
+        <div class="notebook-page-number">DOCUMENT REGISTER &nbsp; / &nbsp; PAGE {{ page.posts.size | prepend: '0' }}</div>
+        <h2>사건 파일 <small>CASE FILES</small></h2>
+        <ol class="notebook-entries">
+          {% for post in page.posts %}
+            <li>
+              <a href="{{ post.url | relative_url }}">
+                <span class="notebook-entry-no">{{ forloop.index | prepend: '0' }}</span>
+                <span class="notebook-entry-copy"><strong>{{ post.title | escape }}</strong><small>{% if post.tags.size > 0 %}증거 라벨 · {{ post.tags | join: ' / ' }}{% else %}증거 라벨 없음{% endif %}</small></span>
+                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+              </a>
+            </li>
+          {% else %}<li class="notebook-empty">아직 보관된 사건 파일이 없습니다.</li>{% endfor %}
+        </ol>
+        <div class="notebook-bottom">END OF REGISTER &nbsp; • &nbsp; {{ page.title | escape | upcase }}</div>
+      </div>
+    </div>
+    <span class="notebook-tab" aria-hidden="true">CASE FILE</span>
+  </div>
+</section>

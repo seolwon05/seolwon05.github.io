@@ -88,6 +88,10 @@ pageviews:
 #
 theme_mode: # [light | dark]
 
+# Change to "paper" to restore the brighter archive design.
+archive_theme: paper # [paper | lamplight]
+archive_collage: true # [true | false]
+
 # The CDN endpoint for media resources.
 # Notice that once it is assigned, the CDN url
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
@@ -184,7 +188,7 @@ defaults:
       path: "" # An empty string here means all files in the project
       type: posts
     values:
-      layout: post
+      layout: case-report
       comments: true # Enable comments in posts.
       toc: true # Display TOC column in posts.
       # DO NOT modify the following parameter unless you are confident enough

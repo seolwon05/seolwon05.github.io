@@ -1,0 +1,20 @@
+---
+layout: default
+---
+{% include archive-style.html %}
+<section class="archive-world ticket-page" aria-label="태그별 게시글">
+  <header class="archive-section-header"><p class="archive-eyebrow">ADMIT ONE · EVIDENCE INDEX</p><h1>Evidence <em>Tickets</em></h1><p>증거 라벨을 선택해 연결된 기록을 살펴보세요.</p></header>
+  <div class="ticket-list">
+    {% assign sorted_tags = site.tags | sort %}
+    {% for tag in sorted_tags %}
+      {% assign tag_name = tag[0] %}{% assign tag_posts = tag[1] %}
+      {% capture tag_path %}/tags/{{ tag_name | slugify }}/{% endcapture %}
+      <a class="evidence-ticket" href="{{ tag_path | relative_url }}" aria-label="{{ tag_name | escape }}, 게시글 {{ tag_posts.size }}개">
+        <span class="ticket-edge" aria-hidden="true">ADMIT ONE</span>
+        <span class="ticket-number">NO. {{ forloop.index | prepend: '00' | slice: -3, 3 }} <span>SEOLWON'S ARCHIVE</span></span>
+        <strong>{{ tag_name | escape }}</strong>
+        <span class="ticket-count"><b>{{ tag_posts.size }}</b><small>RECORDS</small></span>
+      </a>
+    {% else %}<p class="archive-empty">아직 등록된 증거 라벨이 없습니다.</p>{% endfor %}
+  </div>
+</section>
