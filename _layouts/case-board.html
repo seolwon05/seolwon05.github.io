@@ -35,13 +35,22 @@ layout: default
     {% for name in folder_names %}
       {% assign number = folder_codes[forloop.index0] %}
       {% assign sub = folder_subtitles[forloop.index0] %}
+      {% assign record_count = site.categories[name].size | default: 0 %}
       {% capture category_path %}/categories/{{ name | slugify }}/{% endcapture %}
+      {% if record_count > 0 %}
       <a href="{{ category_path | relative_url }}" class="evidence-card evidence-{{ forloop.index }}" aria-label="{{ name }} 카테고리 열기">
+      {% else %}
+      <div class="evidence-card evidence-{{ forloop.index }} evidence-card-empty">
+      {% endif %}
         <div class="evidence-head"><span>EVIDENCE {{ number }}</span><span class="evidence-pin" aria-hidden="true"></span></div>
         <span class="evidence-title">{{ name }}</span>
         <span class="evidence-subtitle">{{ sub }}</span>
-        <span class="evidence-footer">{{ site.categories[name].size | default: 0 }} RECORDS · VIEW FILE ↗</span>
+        <span class="evidence-footer">{{ record_count }} RECORDS · {% if record_count > 0 %}VIEW FILE ↗{% else %}AWAITING RECORDS{% endif %}</span>
+      {% if record_count > 0 %}
       </a>
+      {% else %}
+      </div>
+      {% endif %}
     {% endfor %}
   </div>
   <p class="case-board-note">THREADS OF CURIOSITY · CLICK AN EVIDENCE CARD TO EXPLORE</p>

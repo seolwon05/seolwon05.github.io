@@ -31,6 +31,7 @@
 
 /* The edited ticket image supplies the paper, ornate frame, and perforation. */
 .ticket-list{gap:1.1rem 1.3rem}
+.evidence-card-empty{pointer-events:none}
 .evidence-ticket,.evidence-ticket:nth-child(even){display:grid;grid-template-columns:minmax(0,4fr) minmax(0,1fr);grid-template-rows:auto 1fr;aspect-ratio:2/1;min-height:0;margin:0;transform:none;border:0;border-radius:0;background:transparent url('../img/collage/blank-vintage-ticket-dbc09a-light.png') center/100% 100% no-repeat;box-shadow:none;filter:drop-shadow(2px 5px 2px rgba(65,56,45,.19));clip-path:none;-webkit-mask-image:none;mask-image:none;color:#332d27 !important}
 .evidence-ticket:before,.evidence-ticket:after{display:none}
 .ticket-edge{position:absolute;left:15%;bottom:14%;z-index:1;font:700 .5rem var(--archive-serif);letter-spacing:.1em;color:#62574c}
