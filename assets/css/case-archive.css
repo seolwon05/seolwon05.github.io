@@ -145,6 +145,11 @@ body{
 @media(prefers-reduced-motion:reduce){.evidence-ticket,.catalog-card{transition:none}}
 
 /* Newspaper typography and the supplied paper textures */
+.dossier-body .case-callout{position:relative;margin:2rem 0;padding:1.25rem 1.5rem;background:#ead9b9;border:1px solid #baa17b;border-left:5px solid #986048;box-shadow:3px 4px 0 rgba(111,83,49,.15);color:#352c25;font-size:.9em;line-height:1.8}
+.dossier-body .case-callout .case-callout-title{margin:0 0 1rem;padding:0 0 .65rem;border-bottom:1px solid #b79a73;color:#603b30;font-weight:800}
+.dossier-body .case-callout p{margin:.65rem 0}
+.dossier-body .case-callout p:last-child{margin-bottom:0}
+@media(max-width:600px){.dossier-body .case-callout{padding:1rem 1.1rem}}
 :root{--archive-serif:'Libre Baskerville','Noto Serif KR',Georgia,serif}
 html,body{background:#e9e2d5 !important}
 body{background-image:linear-gradient(rgba(239,232,218,.72),rgba(239,232,218,.72)),url('../img/textures/newspaper-collage.png') !important;background-repeat:repeat,repeat !important;background-size:auto,773px auto !important;background-attachment:fixed !important}
