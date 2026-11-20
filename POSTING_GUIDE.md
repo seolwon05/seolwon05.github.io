@@ -24,3 +24,11 @@
 태그는 여러 개를 적을 수 있습니다. 예: `tags: [programming, notes]`. 새 태그를 쓰면 태그 목록에 새 티켓이 생깁니다.
 
 `description`은 선택 사항입니다. 글 상세의 보고서 제목 아래에 표시됩니다. `layout`은 적지 않아도 기본값인 `case-report`가 적용됩니다. 본문의 첫 번째 `# 제목`은 기존 글과 같은 형식이며, 파일 맨 위의 `title`이 보고서 제목으로 표시됩니다.
+
+## 썸네일 넣기
+
+1. 대표 이미지를 저장소의 `assets/img/posts/` 폴더에 업로드합니다. 예: `my-project-cover.jpg`.
+2. 글 맨 위의 YAML 영역에 `thumbnail: "/assets/img/posts/my-project-cover.jpg"`를 추가합니다.
+3. 저장하면 홈의 파일 카드와 아카이브의 연도별 카드에 이미지가 표시됩니다. 글 본문에도 같은 이미지를 넣고 싶다면 원하는 위치에 `![이미지 설명](/assets/img/posts/my-project-cover.jpg)`를 별도로 적습니다.
+
+`thumbnail`은 선택 사항입니다. 이미지를 지정하지 않은 글은 기존처럼 글자 중심 카드로 표시됩니다. 파일 이름의 대소문자와 확장자까지 실제 업로드한 이미지와 같아야 합니다.

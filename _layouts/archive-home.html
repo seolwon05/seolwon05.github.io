@@ -23,6 +23,8 @@ layout: default
             <span class="folder-classification">{% if post.categories.size > 0 %}{{ post.categories | join: ' / ' }}{% else %}UNFILED{% endif %}</span>
             <span class="folder-date">{{ post.date | date: '%Y.%m.%d' }}</span>
           </div>
+          {% if post.thumbnail %}<figure class="folder-thumbnail"><img
+              src="{{ post.thumbnail | relative_url }}" alt="{{ post.title | escape }} 대표 이미지" loading="lazy"></figure>{% endif %}
           <h3>{{ post.title | escape }}</h3>
           <p class="folder-excerpt">{{ post.description | default: post.excerpt | strip_html | normalize_whitespace | truncate: 145 | escape }}</p>
           <div class="folder-bottom"><span>OPEN FILE <span aria-hidden="true">↗</span></span><span class="folder-stamp">ARCHIVED</span></div>

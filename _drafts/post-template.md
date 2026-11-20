@@ -2,6 +2,7 @@
 title: "글 제목"
 date: 2026-11-12 12:00:00 +0900
 description: "글 목록과 사건 보고서 상단에 표시할 한 줄 소개"
+# thumbnail: "/assets/img/posts/대표-이미지.jpg" # 이미지를 올린 뒤 주석을 풀고 경로를 적으세요
 categories:
   - "Development"
 tags: [programming]

@@ -10,7 +10,8 @@ layout: default
       <div class="catalog-year-head"><h2 id="year-{{ year.name }}">{{ year.name }}</h2><span>{{ year.items.size }} RECORDS / DRAWER {{ forloop.index | prepend: '0' }}</span></div>
       <div class="catalog-cards">
         {% for post in year.items %}{% unless post.hidden %}
-        <a class="catalog-card" href="{{ post.url | relative_url }}"><span class="catalog-card-tab">{{ post.date | date: '%m.%d' }}</span><span class="catalog-card-top">INDEX № {{ forloop.index | prepend: '00' | slice: -3, 3 }} <span>{{ post.categories | first | default: 'UNFILED' }}</span></span><strong>{{ post.title | escape }}</strong><span class="catalog-card-bottom">{{ post.date | date: '%Y.%m.%d' }} <span>OPEN RECORD ↗</span></span></a>
+        <a class="catalog-card" href="{{ post.url | relative_url }}"><span class="catalog-card-tab">{{ post.date | date: '%m.%d' }}</span><span class="catalog-card-top">INDEX № {{ forloop.index | prepend: '00' | slice: -3, 3 }} <span>{{ post.categories | first | default: 'UNFILED' }}</span></span>{% if post.thumbnail %}<span class="catalog-thumbnail"><img
+            src="{{ post.thumbnail | relative_url }}" alt="{{ post.title | escape }} 대표 이미지" loading="lazy"></span>{% endif %}<strong>{{ post.title | escape }}</strong><span class="catalog-card-bottom">{{ post.date | date: '%Y.%m.%d' }} <span>OPEN RECORD ↗</span></span></a>
         {% endunless %}{% endfor %}
       </div>
     </section>
