@@ -149,6 +149,7 @@ body{
 .dossier-body .case-callout .case-callout-title{margin:0 0 1rem;padding:0 0 .65rem;border-bottom:1px solid #d0d0d0;color:#352c25;font-weight:800}
 .dossier-body .case-callout p{margin:.65rem 0}
 .dossier-body .case-callout p:last-child{margin-bottom:0}
+.dossier-body > hr{height:2px;margin:2rem 0;border:0;background:#555;opacity:1}
 @media(max-width:600px){.dossier-body .case-callout{padding:1rem 1.1rem}}
 :root{--archive-serif:'Libre Baskerville','Noto Serif KR',Georgia,serif}
 html,body{background:#e9e2d5 !important}
