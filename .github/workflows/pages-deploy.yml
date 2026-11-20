@@ -35,6 +35,14 @@ jobs:
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
 
+      - name: Check post filenames
+        run: |
+          invalid=$(find _posts -maxdepth 1 -type f ! -name '.*' ! -name '*.md' ! -name '*.markdown' -print)
+          if [ -n "$invalid" ]; then
+            echo "::error::Posts in _posts need a .md or .markdown extension: $invalid"
+            exit 1
+          fi
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
