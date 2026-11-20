@@ -1,7 +1,6 @@
 ---
 title: "[ROP Emporium] ret2win"
 date: 2026-11-12 12:00:00 +0900
-description: "글 목록과 사건 보고서 상단에 표시할 한 줄 소개"
 categories:
   - "CTF & Wargame"
 tags: [ctf]
