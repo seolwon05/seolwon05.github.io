@@ -112,6 +112,18 @@ body{
   overflow: hidden;
 }
 
+/* Chirpy's loading shimmer can remain over images in case reports. */
+.dossier-page #post-content .shimmer {
+  background: transparent !important;
+}
+
+.dossier-page #post-content .shimmer::before,
+.dossier-page #post-content .shimmer::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
 /* 프로필 사진 정상 표시 */
 .case-world .case-core-photo img {
   display: block;
