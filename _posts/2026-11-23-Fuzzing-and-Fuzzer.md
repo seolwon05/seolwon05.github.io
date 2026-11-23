@@ -94,11 +94,12 @@ Fuzzer는 이러한 오류를 유발한 입력값을 로그에 저장하고, 개
 예를 들어 AFL++의 일반적인 사용 형태는 `Grey-box | Mutation-based | Structure-unaware | Coverage-guided` 이다.
 
 | 분류 기준 | 퍼징 기법 | 구분 기준 |
-| --- | --- | --- |
+|---|---|---|
 | 내부 정보 활용 정도 | Black-box, Grey-box, White-box | 프로그램의 내부 정보를 얼마나 활용하는가? |
 | 입력값 생성 방식 | Mutation-based, Generation-based | 입력값을 어떻게 만드는가? |
 | 입력 구조 이해 여부 | Structure-unaware, Structure-aware | 입력 형식과 필드 관계를 이해하는가? |
 | 실행 결과 활용 방식 | Coverage-guided, 비유도 방식 등 | 실행 결과를 다음 테스트에 어떻게 반영하는가? |
+
 <br>
 
 <details markdown="1">
