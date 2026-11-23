@@ -154,6 +154,14 @@ body{
 .dossier-body .case-callout p{margin:.65rem 0}
 .dossier-body .case-callout p:last-child{margin-bottom:0}
 .dossier-body > hr{height:2px;margin:2rem 0;border:0;background:#555;opacity:1}
+.dossier-body .archive-annotation{position:relative;display:inline;z-index:2;background:rgba(214,182,117,.22);border-bottom:1px dashed #986048;border-radius:2px;color:inherit;cursor:help;outline:0}
+.dossier-body .archive-annotation:hover,.dossier-body .archive-annotation:focus-visible{background:rgba(214,182,117,.42);border-bottom-style:solid}
+.dossier-body .archive-annotation:focus-visible{outline:2px solid #986048;outline-offset:2px}
+.dossier-body .archive-annotation-popup{position:absolute;left:0;bottom:calc(100% + .6rem);z-index:20;display:block;width:max-content;max-width:min(19rem,calc(100vw - 2rem));padding:.8rem 1rem;background:#f2eee5;border:1px solid #a9967c;box-shadow:3px 5px 13px rgba(51,39,25,.23);color:#312b27;font:.8rem/1.65 'Noto Serif KR',Georgia,serif;text-align:left;white-space:normal;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .15s ease,transform .15s ease}
+.dossier-body .archive-annotation:is(:hover,:focus-visible,:focus) .archive-annotation-popup{visibility:visible;opacity:1;transform:translateY(0)}
+.dossier-body .archive-annotation-label{display:block;margin-bottom:.45rem;padding-bottom:.35rem;border-bottom:1px solid #c9baa4;color:#8a4c3c;font:.6rem/1.4 Georgia,serif;font-weight:700;letter-spacing:.08em}
+.dossier-body .archive-annotation-definition{display:block}
+@media(prefers-reduced-motion:reduce){.dossier-body .archive-annotation-popup{transition:none}}
 @media(max-width:600px){.dossier-body .case-callout{padding:1rem 1.1rem}}
 :root{--archive-serif:'Libre Baskerville','Noto Serif KR',Georgia,serif}
 html,body{background:#e9e2d5 !important}
