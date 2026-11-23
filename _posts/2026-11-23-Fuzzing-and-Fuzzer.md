@@ -50,7 +50,7 @@ Fuzzing은 프로그램에 비정상적이거나 예상치 못한 입력값을 �
 <aside class="case-callout" markdown="1">
 
 <p class="case-callout-title">예시 입력</p>
-<hr>
+
 | 입력값 | 테스트 목적 |
 | --- | --- |
 | `10` | 정상 입력 처리 |
@@ -196,26 +196,11 @@ Fuzzer는 Fuzzing을 자동으로 수행하는 프로그램(도구)를 의미한
 <aside class="case-callout" markdown="1">
 
 <p class="case-callout-title">퍼징의 기본 동작 과정</p>
-<br>
-<aside class="case-callout" markdown="1">
-  
-1. **입력값 생성 또는 변형**
-    
-&emsp;→ 정상 데이터, 비정상 데이터, 경계값 등
-    
-2. **Fuzz Target**(퍼징 대상) **실행**
-    
-&emsp;→ 테스트 대상 프로그램 또는 함수
-    
-3. **실행 결과 관찰**
-    
-&emsp;→ Crash, 메모리 오류, Timeout, 예상과 다른 동작
-    
-4. **결과 분석 및 입력값 개선**
-    
-&emsp;→ 유의미한 입력을 저장하고 다음 테스트에 활용
 
-</aside>
+1. **입력값 생성 또는 변형** — 정상 데이터, 비정상 데이터, 경계값 등
+2. **Fuzz Target**(퍼징 대상) **실행** — 테스트 대상 프로그램 또는 함수
+3. **실행 결과 관찰** — Crash, 메모리 오류, Timeout, 예상과 다른 동작
+4. **결과 분석 및 입력값 개선** — 유의미한 입력을 저장하고 다음 테스트에 활용
 
 위 과정을 반복 수행한다.
 
