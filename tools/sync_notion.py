@@ -235,21 +235,26 @@ def render_callout(block, token, page_id, notes, used, dry_run, depth):
     # A separator line inside the callout is a title/body convention, not an
     # additional horizontal rule: the card title already has a dividing border.
     match = re.search(r"(?m)^[ \t]*---[ \t]*$", raw)
+    child_separator = bool(nested and nested[0]["type"] == "divider")
     if match:
         title_end = len(raw[:match.start()].rstrip("\n"))
         body_start = match.end() + len(raw[match.end():]) - len(raw[match.end():].lstrip("\n"))
         title = inline(rich_slice(rich, 0, title_end), notes, used).strip()
         body_text = rich_slice(rich, body_start, len(raw))
         body = "<p>" + inline(body_text, notes, used).strip() + "</p>" if plain(body_text).strip() else ""
-    else:
+    elif child_separator:
         title = inline(rich, notes, used)
         body = ""
-    if nested and nested[0]["type"] == "divider":
+    else:
+        title = ""
+        body = "<p>" + inline(rich, notes, used) + "</p>" if rich else ""
+    if child_separator:
         nested = nested[1:]
     if nested:
         child_body = render_blocks(nested, token, page_id, notes, used, dry_run, depth + 1)
         body = "\n\n".join(part for part in (body, child_body) if part)
-    return f'<aside class="case-callout" markdown="1">\n\n<p class="case-callout-title">{title}</p>\n\n{body}\n\n</aside>'
+    heading = f'<p class="case-callout-title">{title}</p>\n\n' if title else ""
+    return f'<aside class="case-callout" markdown="1">\n\n{heading}{body}\n\n</aside>'
 
 
 def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):

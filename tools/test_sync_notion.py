@@ -91,6 +91,13 @@ class NotionConversionTests(unittest.TestCase):
         markup = render_callout(block, "token", "page", {}, set(), True, 0)
         self.assertIn('<a href="https://example.com">', markup)
 
+    def test_callout_without_separator_has_body_only(self):
+        block = {"type": "callout", "id": "callout", "has_children": False,
+                 "callout": {"rich_text": [rich("토글 속 콜아웃도 제대로 적용되나요?")]}}
+        markup = render_callout(block, "token", "page", {}, set(), True, 0)
+        self.assertIn("<p><span>토글 속 콜아웃도 제대로 적용되나요?</span></p>", markup)
+        self.assertNotIn("case-callout-title", markup)
+
 
 if __name__ == "__main__":
     unittest.main()
