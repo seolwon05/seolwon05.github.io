@@ -1,6 +1,7 @@
 """Publish ✅ child pages of one Notion page as Jekyll posts."""
 
 import argparse
+import datetime
 import html
 import json
 import os
@@ -65,6 +66,11 @@ def plain(rich_text):
     return "".join(item.get("plain_text", item.get("text", {}).get("content", "")) for item in rich_text)
 
 
+def literal_html(value):
+    escaped = html.escape(value, quote=False)
+    return re.sub(r"[\\`*_{}\[\]()#+.!|>~-]", lambda match: f"&#{ord(match.group())};", escaped)
+
+
 def liquid_arg(value):
     # Liquid's quoted include arguments cannot safely contain quotes or newlines.
     # Reject instead of publishing malformed markup or silently changing text.
@@ -107,7 +113,9 @@ def inline(rich_text, notes, used):
             used.add(value)
             out.append('{% include annotation.html text="' + liquid_arg(value) + '" note="' + liquid_arg(notes[value]) + '" %}')
             continue
-        rendered = html.escape(value, quote=False)
+        # Notion plain text must stay literal: Markdown-looking examples such as
+        # ![alt](example) are not actual images or links.
+        rendered = "<span>" + literal_html(value) + "</span>"
         link = item.get("text", {}).get("link")
         href = item.get("href") or (link or {}).get("url")
         if annotations.get("code"):
@@ -146,8 +154,29 @@ def image(block, token, page_id, dry_run):
         ASSETS.mkdir(parents=True, exist_ok=True)
         if not target.exists() or target.read_bytes() != raw:
             target.write_bytes(raw)
-    caption = html.escape(plain(data.get("caption", [])), quote=True)
+    caption = html.escape(plain(data.get("caption", [])) or "이미지", quote=True)
     return f'![{caption}](/assets/img/posts/notion/{name})'
+
+
+def extract_frontmatter(blocks):
+    """Read optional Notion paragraphs that mimic a Jekyll front matter header."""
+    if not blocks or blocks[0]["type"] != "divider":
+        return {}, blocks
+    metadata = {}
+    position = 1
+    while position < len(blocks) and blocks[position]["type"] == "paragraph":
+        text = plain(blocks[position]["paragraph"].get("rich_text", [])).strip()
+        match = re.fullmatch(r"(title|date|categories|tags|thumbnail):\s*(.*)", text)
+        if not match:
+            break
+        key, value = match.groups()
+        if key in metadata:
+            raise SyncError(f"중복된 글 설정: {key}")
+        metadata[key] = value
+        position += 1
+    if not metadata:
+        return {}, blocks
+    return metadata, blocks[position:]
 
 
 def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):
@@ -211,22 +240,39 @@ def page_to_post(page, token, dry_run):
     if not match:
         raise SyncError(f"글 제목은 YYYY-MM-DD-english-slug.md 형식이어야 합니다: {filename}")
     raw = children(page["id"], token)
+    metadata, raw = extract_frontmatter(raw)
     notes, content = collect_notes(raw)
     used = set()
     body = render_blocks(content, token, page["id"].replace("-", ""), notes, used, dry_run)
     unused = set(notes) - used
     if unused:
         raise SyncError("밑줄 용어와 일치하지 않는 설명: " + ", ".join(sorted(unused)))
-    title = match.group(2).replace("-", " ")
-    for block in content:
-        if block["type"] == "heading_1":
-            title = plain(block["heading_1"].get("rich_text", []))
-            break
+    title = metadata.get("title") or match.group(2).replace("-", " ")
+    if not metadata.get("title"):
+        for block in content:
+            if block["type"] == "heading_1":
+                title = plain(block["heading_1"].get("rich_text", []))
+                break
+    date = metadata.get("date") or match.group(1) + " 12:00:00 +0900"
+    try:
+        parsed_date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S %z")
+    except ValueError as error:
+        raise SyncError(f"date 형식이 올바르지 않습니다: {date}") from error
+    if parsed_date.date().isoformat() != match.group(1):
+        raise SyncError("페이지 파일명과 date의 날짜가 다릅니다")
+    categories = [value.strip() for value in metadata.get("categories", "").split(",") if value.strip()]
+    tags = [value.strip() for value in metadata.get("tags", "").split(",") if value.strip()]
+    thumbnail = metadata.get("thumbnail", "").strip()
+    if thumbnail and not thumbnail.startswith("/assets/img/posts/"):
+        raise SyncError("thumbnail은 /assets/img/posts/ 경로여야 합니다")
     marker = f"# notion_page_id: {page['id']}"
     front = "\n".join([
         "---", marker, "title: " + json.dumps(title, ensure_ascii=False),
-        "date: " + match.group(1) + " 12:00:00 +0900",
-        "categories: []", "tags: []", "---", "", body, "",
+        "date: " + date,
+        "categories: " + json.dumps(categories, ensure_ascii=False),
+        "tags: " + json.dumps(tags, ensure_ascii=False),
+        *(["thumbnail: " + json.dumps(thumbnail, ensure_ascii=False)] if thumbnail else []),
+        "---", "", body, "",
     ])
     return filename, front
 

@@ -1,6 +1,6 @@
 import unittest
 
-from sync_notion import SyncError, collect_notes, inline, liquid_arg
+from sync_notion import SyncError, collect_notes, extract_frontmatter, inline, liquid_arg
 
 
 def rich(text, **annotations):
@@ -28,6 +28,21 @@ class NotionConversionTests(unittest.TestCase):
     def test_quote_fails_before_liquid_generation(self):
         with self.assertRaises(SyncError):
             liquid_arg('a "quote"')
+
+    def test_plain_markdown_example_stays_literal(self):
+        self.assertEqual(inline([rich("![이미지설명](이미지 주소)")], {}, set()),
+                         "<span>&#33;&#91;이미지설명&#93;&#40;이미지 주소&#41;</span>")
+
+    def test_notion_frontmatter_paragraphs(self):
+        blocks = [{"type": "divider"}]
+        blocks += [{"type": "paragraph", "paragraph": {"rich_text": [rich(text)]}}
+                   for text in ("title: 테스트", "date: 2026-11-24 13:53:00 +0900",
+                                "categories: Development", "tags: programming")]
+        blocks.append({"type": "heading_1", "heading_1": {"rich_text": [rich("본문")]}})
+        metadata, body = extract_frontmatter(blocks)
+        self.assertEqual(metadata["title"], "테스트")
+        self.assertEqual(len(body), 1)
+        self.assertEqual(body[0]["type"], "heading_1")
 
 
 if __name__ == "__main__":
