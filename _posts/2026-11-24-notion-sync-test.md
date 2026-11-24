@@ -129,9 +129,7 @@ print("hello, world!")
 
 <aside class="case-callout" markdown="1">
 
-<p class="case-callout-title"><span>토글 속 콜아웃도 제대로 적용되나요?</span></p>
-
-
+<p><span>토글 속 콜아웃도 제대로 적용되나요?</span></p>
 
 </aside>
 
