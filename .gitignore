@@ -13,6 +13,7 @@ _site
 
 # NPM dependencies
 node_modules
+__pycache__/
 package-lock.json
 
 # IDE configurations

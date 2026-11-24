@@ -153,6 +153,7 @@ body{
 .dossier-body .case-callout .case-callout-title{margin:0 0 1rem;padding:0 0 .65rem;border-bottom:1px solid #d0d0d0;color:#352c25;font-weight:800}
 .dossier-body .case-callout p{margin:.65rem 0}
 .dossier-body .case-callout p:last-child{margin-bottom:0}
+.dossier-body .notion-color-gray{color:#777}.dossier-body .notion-color-brown{color:#966748}.dossier-body .notion-color-orange{color:#c07530}.dossier-body .notion-color-yellow{color:#a08118}.dossier-body .notion-color-green{color:#527a46}.dossier-body .notion-color-blue{color:#4676a0}.dossier-body .notion-color-purple{color:#835e9b}.dossier-body .notion-color-pink{color:#ac6388}.dossier-body .notion-color-red{color:#ae514b}
 .dossier-body > hr{height:2px;margin:2rem 0;border:0;background:#555;opacity:1}
 .dossier-body .archive-annotation{position:relative;display:inline;z-index:2;background:rgba(214,182,117,.22);border-bottom:1px dashed #986048;border-radius:2px;color:inherit;cursor:help;outline:0}
 .dossier-body .archive-annotation:hover,.dossier-body .archive-annotation:focus-visible{background:rgba(214,182,117,.42);border-bottom-style:solid}

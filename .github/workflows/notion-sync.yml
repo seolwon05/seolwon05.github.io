@@ -1,0 +1,41 @@
+name: Sync Notion posts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17,47 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: notion-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check converter
+        run: python -m unittest discover -s tools -p test_sync_notion.py
+      - name: Convert ✅ Notion pages
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_PARENT_PAGE_ID: ${{ vars.NOTION_PARENT_PAGE_ID }}
+        run: python tools/sync_notion.py
+      - name: Commit generated posts
+        run: |
+          git add _posts
+          if [ -d assets/img/posts/notion ]; then git add assets/img/posts/notion; fi
+          if git diff --cached --quiet; then
+            echo "No post changes"
+            exit 0
+          fi
+          git -c user.name='notion-sync[bot]' -c user.email='notion-sync[bot]@users.noreply.github.com' commit -m 'Sync Notion posts'
+          git push
