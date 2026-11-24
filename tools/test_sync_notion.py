@@ -1,6 +1,6 @@
 import unittest
 
-from sync_notion import SyncError, collect_notes, extract_frontmatter, inline, liquid_arg
+from sync_notion import SyncError, collect_notes, extract_frontmatter, inline, liquid_arg, render_table
 
 
 def rich(text, **annotations):
@@ -43,6 +43,20 @@ class NotionConversionTests(unittest.TestCase):
         self.assertEqual(metadata["title"], "테스트")
         self.assertEqual(len(body), 1)
         self.assertEqual(body[0]["type"], "heading_1")
+
+    def test_table_headers_and_cells(self):
+        rows = [{"type": "table_row", "table_row": {"cells": [[rich(value)] for value in values]}}
+                for values in (("구분", "설명"), ("테이블", "표가 올라갑니다"))]
+        markup = render_table({"table_width": 2, "has_column_header": True,
+                               "has_row_header": True}, rows, {}, set())
+        self.assertIn('<th scope="col"><span>구분</span></th>', markup)
+        self.assertIn('<th scope="row"><span>테이블</span></th>', markup)
+        self.assertIn('<td><span>표가 올라갑니다</span></td>', markup)
+
+    def test_table_width_mismatch_fails(self):
+        with self.assertRaises(SyncError):
+            render_table({"table_width": 2},
+                         [{"type": "table_row", "table_row": {"cells": [[rich("하나")]]}}], {}, set())
 
 
 if __name__ == "__main__":

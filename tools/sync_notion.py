@@ -179,6 +179,37 @@ def extract_frontmatter(blocks):
     return metadata, blocks[position:]
 
 
+def render_table(table, rows, notes, used):
+    width = table.get("table_width", 0)
+    if width < 1 or not rows:
+        raise SyncError("빈 표 또는 열 수가 잘못된 표입니다")
+    result = ['<table>']
+    for index, row in enumerate(rows):
+        if row["type"] != "table_row":
+            raise SyncError("표 안에 행 이외의 블록이 있습니다")
+        cells = row["table_row"]["cells"]
+        if len(cells) != width:
+            raise SyncError("표의 행과 열 수가 일치하지 않습니다")
+        column_header = index == 0 and table.get("has_column_header", False)
+        if column_header:
+            result.append("<thead>")
+        elif index == (1 if table.get("has_column_header", False) else 0):
+            result.append("<tbody>")
+        result.append("<tr>")
+        for column, rich in enumerate(cells):
+            header = column_header or (column == 0 and table.get("has_row_header", False))
+            tag = "th" if header else "td"
+            scope = ' scope="col"' if column_header else (' scope="row"' if header else "")
+            result.append(f"<{tag}{scope}>" + inline(rich, notes, used) + f"</{tag}>")
+        result.append("</tr>")
+        if column_header:
+            result.append("</thead>")
+    if not table.get("has_column_header", False) or len(rows) > 1:
+        result.append("</tbody>")
+    result.append("</table>")
+    return "\n".join(result)
+
+
 def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):
     if depth > 8:
         raise SyncError("블록 중첩이 너무 깊습니다")
@@ -219,6 +250,8 @@ def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):
             output.append(f"```{language}\n{code}\n```")
         elif kind == "image":
             output.append(image(block, token, page_id, dry_run))
+        elif kind == "table":
+            output.append(render_table(data, children(block["id"], token), notes, used))
         elif kind == "divider":
             output.append("---")
         else:
