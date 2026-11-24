@@ -6,10 +6,6 @@ categories: ["Development"]
 tags: ["programming"]
 ---
 
-![이미지](/assets/img/posts/notion/422d4a905df88080863bd9383acee10a-422d4a90-5df8-809d-9165-e64c64f35612.png)
-
-
-
 # <strong><span>노션 블로그 동기화 테스트</span></strong>
 
 <span>이 글은 노션에서 작성한 내용이 블로그에 제대로 반영되는지 확인하기 위한 테스트 글입니다&#46;</span>
@@ -45,3 +41,31 @@ tags: ["programming"]
 ![경희대 캠퍼스 전경](/assets/img/posts/notion/422d4a905df88080863bd9383acee10a-422d4a90-5df8-8000-96f0-df774b95c485.jpg)
 
 <span>이 부분은 썸네일이 아닌 일반 사진을 업로드했을 때 &#33;&#91;이미지설명&#93;&#40;이미지 주소&#41; 형식으로 올라가는지 보려고 테스트 하는 부분입니다&#46;</span>
+
+
+
+
+
+## <span>테이블 테스트</span>
+
+<table>
+<thead>
+<tr>
+<th scope="col"><span>구분</span></th>
+<th scope="col"><span>설명</span></th>
+<th scope="col"><span>특징</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row"><span>테이블</span></th>
+<td><span>표가 제대로 업로드 될까요?</span></td>
+<td><span>저도 모르겟어요</span></td>
+</tr>
+<tr>
+<th scope="row"><span>업로드</span></th>
+<td><span>테스트</span></td>
+<td><span>중입니다</span></td>
+</tr>
+</tbody>
+</table>
