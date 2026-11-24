@@ -107,17 +107,18 @@ def inline(rich_text, notes, used):
     for item in rich_text:
         value = item.get("plain_text", item.get("text", {}).get("content", ""))
         annotations = item.get("annotations", {})
-        if annotations.get("underline"):
-            if value not in notes:
-                raise SyncError(f"밑줄 용어에 해당하는 설명이 없습니다: {value}")
+        link = item.get("text", {}).get("link")
+        href = item.get("href") or (link or {}).get("url")
+        if annotations.get("underline") and value in notes:
             used.add(value)
             out.append('{% include annotation.html text="' + liquid_arg(value) + '" note="' + liquid_arg(notes[value]) + '" %}')
             continue
+        if annotations.get("underline") and not href:
+            if value not in notes:
+                raise SyncError(f"밑줄 용어에 해당하는 설명이 없습니다: {value}")
         # Notion plain text must stay literal: Markdown-looking examples such as
         # ![alt](example) are not actual images or links.
-        rendered = "<span>" + literal_html(value) + "</span>"
-        link = item.get("text", {}).get("link")
-        href = item.get("href") or (link or {}).get("url")
+        rendered = "<span>" + "<br />".join(literal_html(part) for part in value.split("\n")) + "</span>"
         if annotations.get("code"):
             rendered = "<code>" + rendered + "</code>"
         if annotations.get("bold"):
@@ -210,6 +211,28 @@ def render_table(table, rows, notes, used):
     return "\n".join(result)
 
 
+def render_callout(block, token, page_id, notes, used, dry_run, depth):
+    rich = block["callout"].get("rich_text", [])
+    raw = plain(rich)
+    nested = children(block["id"], token) if block.get("has_children") else []
+    # A separator line inside the callout is a title/body convention, not an
+    # additional horizontal rule: the card title already has a dividing border.
+    match = re.search(r"(?m)^\s*---\s*$", raw)
+    if match:
+        title = "<span>" + literal_html(raw[:match.start()].strip()) + "</span>"
+        body_text = raw[match.end():].strip("\n")
+        body = "<p>" + "<br />".join(literal_html(part) for part in body_text.split("\n")) + "</p>" if body_text.strip() else ""
+    else:
+        title = inline(rich, notes, used)
+        body = ""
+    if nested and nested[0]["type"] == "divider":
+        nested = nested[1:]
+    if nested:
+        child_body = render_blocks(nested, token, page_id, notes, used, dry_run, depth + 1)
+        body = "\n\n".join(part for part in (body, child_body) if part)
+    return f'<aside class="case-callout" markdown="1">\n\n<p class="case-callout-title">{title}</p>\n\n{body}\n\n</aside>'
+
+
 def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):
     if depth > 8:
         raise SyncError("블록 중첩이 너무 깊습니다")
@@ -231,17 +254,17 @@ def render_blocks(blocks, token, page_id, notes, used, dry_run, depth=0):
             continue
         list_kind = None
         if kind == "paragraph":
-            output.append(inline(rich, notes, used))
+            output.append(inline(rich, notes, used) if rich else '<div class="notion-spacer" aria-hidden="true"></div>')
         elif kind in {"heading_1", "heading_2", "heading_3"}:
             output.append("#" * int(kind[-1]) + " " + inline(rich, notes, used))
         elif kind == "quote":
             output.append("> " + inline(rich, notes, used).replace("\n", "\n> "))
         elif kind == "callout":
-            title = inline(rich, notes, used)
-            body = ""
-            if block.get("has_children"):
-                body = render_blocks(children(block["id"], token), token, page_id, notes, used, dry_run, depth + 1)
-            output.append(f'<aside class="case-callout" markdown="1">\n\n<p class="case-callout-title">{title}</p>\n\n{body}\n\n</aside>')
+            output.append(render_callout(block, token, page_id, notes, used, dry_run, depth))
+        elif kind == "toggle":
+            summary = inline(rich, notes, used)
+            body = render_blocks(children(block["id"], token), token, page_id, notes, used, dry_run, depth + 1) if block.get("has_children") else ""
+            output.append(f'<details markdown="1">\n<summary>{summary}</summary>\n\n{body}\n\n</details>')
         elif kind == "code":
             code = plain(rich)
             language = data.get("language", "text").split()[0].lower()

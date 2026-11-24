@@ -1,6 +1,6 @@
 import unittest
 
-from sync_notion import SyncError, collect_notes, extract_frontmatter, inline, liquid_arg, render_table
+from sync_notion import SyncError, collect_notes, extract_frontmatter, inline, liquid_arg, render_blocks, render_callout, render_table
 
 
 def rich(text, **annotations):
@@ -57,6 +57,31 @@ class NotionConversionTests(unittest.TestCase):
         with self.assertRaises(SyncError):
             render_table({"table_width": 2},
                          [{"type": "table_row", "table_row": {"cells": [[rich("하나")]]}}], {}, set())
+
+    def test_link_and_background_color(self):
+        linked = rich("원하는 영역", color="yellow_background")
+        linked["href"] = "https://example.com/page"
+        markup = inline([linked], {}, set())
+        self.assertIn('href="https://example.com/page"', markup)
+        self.assertIn('class="notion-color-yellow_background"', markup)
+
+    def test_empty_paragraph_and_toggle(self):
+        blocks = [
+            {"type": "paragraph", "paragraph": {"rich_text": []}},
+            {"type": "toggle", "id": "toggle", "has_children": False,
+             "toggle": {"rich_text": [rich("자세히")]}},
+        ]
+        markup = render_blocks(blocks, "token", "page", {}, set(), True)
+        self.assertIn('class="notion-spacer"', markup)
+        self.assertIn("<summary><span>자세히</span></summary>", markup)
+
+    def test_callout_title_and_body_separator(self):
+        block = {"type": "callout", "id": "callout", "has_children": False,
+                 "callout": {"rich_text": [rich("제목\n---\n내용") ]}}
+        markup = render_callout(block, "token", "page", {}, set(), True, 0)
+        self.assertIn('class="case-callout-title"><span>제목</span>', markup)
+        self.assertIn("<p>내용</p>", markup)
+        self.assertNotIn("<hr", markup)
 
 
 if __name__ == "__main__":
