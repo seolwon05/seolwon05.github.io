@@ -211,17 +211,36 @@ def render_table(table, rows, notes, used):
     return "\n".join(result)
 
 
+def rich_slice(rich, start, end):
+    sliced = []
+    offset = 0
+    for item in rich:
+        value = item.get("plain_text", item.get("text", {}).get("content", ""))
+        left = max(start - offset, 0)
+        right = min(end - offset, len(value))
+        if left < right:
+            piece = dict(item)
+            piece["plain_text"] = value[left:right]
+            if item.get("type") == "text":
+                piece["text"] = {**item.get("text", {}), "content": value[left:right]}
+            sliced.append(piece)
+        offset += len(value)
+    return sliced
+
+
 def render_callout(block, token, page_id, notes, used, dry_run, depth):
     rich = block["callout"].get("rich_text", [])
     raw = plain(rich)
     nested = children(block["id"], token) if block.get("has_children") else []
     # A separator line inside the callout is a title/body convention, not an
     # additional horizontal rule: the card title already has a dividing border.
-    match = re.search(r"(?m)^\s*---\s*$", raw)
+    match = re.search(r"(?m)^[ \t]*---[ \t]*$", raw)
     if match:
-        title = "<span>" + literal_html(raw[:match.start()].strip()) + "</span>"
-        body_text = raw[match.end():].strip("\n")
-        body = "<p>" + "<br />".join(literal_html(part) for part in body_text.split("\n")) + "</p>" if body_text.strip() else ""
+        title_end = len(raw[:match.start()].rstrip("\n"))
+        body_start = match.end() + len(raw[match.end():]) - len(raw[match.end():].lstrip("\n"))
+        title = inline(rich_slice(rich, 0, title_end), notes, used).strip()
+        body_text = rich_slice(rich, body_start, len(raw))
+        body = "<p>" + inline(body_text, notes, used).strip() + "</p>" if plain(body_text).strip() else ""
     else:
         title = inline(rich, notes, used)
         body = ""

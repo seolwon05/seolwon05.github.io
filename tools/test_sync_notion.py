@@ -80,8 +80,16 @@ class NotionConversionTests(unittest.TestCase):
                  "callout": {"rich_text": [rich("제목\n---\n내용") ]}}
         markup = render_callout(block, "token", "page", {}, set(), True, 0)
         self.assertIn('class="case-callout-title"><span>제목</span>', markup)
-        self.assertIn("<p>내용</p>", markup)
+        self.assertIn("<p><span>내용</span></p>", markup)
         self.assertNotIn("<hr", markup)
+
+    def test_callout_separator_keeps_body_link(self):
+        body = rich("연결된 설명")
+        body["href"] = "https://example.com"
+        block = {"type": "callout", "id": "callout", "has_children": False,
+                 "callout": {"rich_text": [rich("제목\n---\n"), body]}}
+        markup = render_callout(block, "token", "page", {}, set(), True, 0)
+        self.assertIn('<a href="https://example.com">', markup)
 
 
 if __name__ == "__main__":
